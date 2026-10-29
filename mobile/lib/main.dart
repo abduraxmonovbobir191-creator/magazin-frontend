@@ -69,6 +69,7 @@ class AuthGate extends StatefulWidget {
 class _AuthGateState extends State<AuthGate> {
   String? token;
   bool loading = true;
+  bool demoMode = false;
 
   @override
   void initState() {
@@ -113,14 +114,16 @@ class _AuthGateState extends State<AuthGate> {
     if (loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    if (token == null) return LoginScreen(onLogin: _login);
+    if (demoMode) return DashboardScreen(token: '', onLogout: _logout, demoMode: true);
+    if (token == null) return LoginScreen(onLogin: _login, onDemo: () => setState(() => demoMode = true));
     return DashboardScreen(token: token!, onLogout: _logout);
   }
 }
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.onLogin});
+  const LoginScreen({super.key, required this.onLogin, required this.onDemo});
   final Future<void> Function(String, String) onLogin;
+  final VoidCallback onDemo;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -184,8 +187,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (error != null) Padding(padding: const EdgeInsets.only(top: 12), child: Text(error!, style: const TextStyle(color: Colors.red))),
                     const SizedBox(height: 18),
                     FilledButton(onPressed: busy ? null : submit, child: Padding(padding: const EdgeInsets.all(12), child: Text(busy ? 'Tekshirilmoqda...' : 'Kirish'))),
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(onPressed: widget.onDemo, icon: const Icon(Icons.visibility_outlined), label: const Padding(padding: EdgeInsets.all(10), child: Text('Dizaynni demo rejimida ko‘rish'))),
                     const SizedBox(height: 12),
-                    const Text('API: $apiBaseUrl', textAlign: TextAlign.center, style: TextStyle(fontSize: 10, color: Colors.grey)),
+                    const Text('Demo rejimi serverga ulanmaydi; ma’lumotlar namunaviy.', textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.grey)),
                   ],
                 ),
               ),
@@ -198,9 +203,10 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key, required this.token, required this.onLogout});
+  const DashboardScreen({super.key, required this.token, required this.onLogout, this.demoMode = false});
   final String token;
   final Future<void> Function() onLogout;
+  final bool demoMode;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -220,6 +226,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> load() async {
+    if (demoMode) {
+      setState(() {
+        busy = false;
+        error = null;
+        dashboard = {'sales': 1285000, 'grossProfit': 286000, 'expenses': 75000, 'openDebt': 420000, 'lowStockCount': 3};
+        products = [
+          {'name': 'Non', 'sale_price': 4000, 'purchase_price': 3000, 'stock_quantity': 24, 'min_stock': 10, 'unit': 'dona'},
+          {'name': 'Sut 1L', 'sale_price': 12000, 'purchase_price': 9500, 'stock_quantity': 8, 'min_stock': 10, 'unit': 'dona'},
+          {'name': 'Shakar', 'sale_price': 15000, 'purchase_price': 12500, 'stock_quantity': 18, 'min_stock': 5, 'unit': 'kg'},
+          {'name': 'Tuxum', 'sale_price': 1800, 'purchase_price': 1400, 'stock_quantity': 6, 'min_stock': 12, 'unit': 'dona'},
+        ];
+      });
+      return;
+    }
     setState(() { busy = true; error = null; });
     try {
       final values = await Future.wait([
@@ -252,9 +272,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
           children: [
-            Text(selectedTab == 0 ? 'Bugungi holat' : 'Mahsulotlar ombori', style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
+            Text(selectedTab == 0 ? (demoMode ? 'Bugungi holat · DEMO' : 'Bugungi holat') : 'Mahsulotlar ombori', style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
             const SizedBox(height: 6),
-            const Text('Oziq-ovqat do‘koni hisob-kitob paneli', style: TextStyle(color: Colors.black54)),
+            Text(demoMode ? 'Namuna ma’lumotlar — haqiqiy savdo emas' : 'Oziq-ovqat do‘koni hisob-kitob paneli', style: TextStyle(color: demoMode ? Colors.deepOrange : Colors.black54)),
             if (error != null) Padding(padding: const EdgeInsets.only(top: 14), child: Card(child: Padding(padding: const EdgeInsets.all(14), child: Text(error!, style: const TextStyle(color: Colors.red))))),
             if (busy) const Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator())),
             if (!busy && error == null && selectedTab == 0) ...[
