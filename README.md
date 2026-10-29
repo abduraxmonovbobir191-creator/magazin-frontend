@@ -11,7 +11,7 @@ Telefon va kompyuterga moslashadigan oziq-ovqat magazini boshqaruv paneli.
 6. `npm start`
 
 ## Hozirgi ekranlar
-- Login (JWT)
+- Login (JWT)\n- POS savdo oynasi va savdo tarixi\n- Savdoda ombor qoldig‘ini tekshirish, tannarxni saqlash va nasiya savdoda qarz yaratish
 - Dashboard ko‘rsatkichlari
 - Mahsulotlar va ombor qoldig‘i
 - Xarajatlar
