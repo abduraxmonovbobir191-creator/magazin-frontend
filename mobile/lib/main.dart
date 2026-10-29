@@ -114,7 +114,7 @@ class _AuthGateState extends State<AuthGate> {
     if (loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    if (demoMode) return DashboardScreen(token: '', onLogout: _logout, demoMode: true);
+    if (widget.demoMode) return DashboardScreen(token: '', onLogout: _logout, demoMode: true);
     if (token == null) return LoginScreen(onLogin: _login, onDemo: () => setState(() => demoMode = true));
     return DashboardScreen(token: token!, onLogout: _logout);
   }
@@ -226,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> load() async {
-    if (demoMode) {
+    if (widget.demoMode) {
       setState(() {
         busy = false;
         error = null;
@@ -272,9 +272,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
           children: [
-            Text(selectedTab == 0 ? (demoMode ? 'Bugungi holat · DEMO' : 'Bugungi holat') : 'Mahsulotlar ombori', style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
+            Text(selectedTab == 0 ? (widget.demoMode ? 'Bugungi holat · DEMO' : 'Bugungi holat') : 'Mahsulotlar ombori', style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
             const SizedBox(height: 6),
-            Text(demoMode ? 'Namuna ma’lumotlar — haqiqiy savdo emas' : 'Oziq-ovqat do‘koni hisob-kitob paneli', style: TextStyle(color: demoMode ? Colors.deepOrange : Colors.black54)),
+            Text(widget.demoMode ? 'Namuna ma’lumotlar — haqiqiy savdo emas' : 'Oziq-ovqat do‘koni hisob-kitob paneli', style: TextStyle(color: widget.demoMode ? Colors.deepOrange : Colors.black54)),
             if (error != null) Padding(padding: const EdgeInsets.only(top: 14), child: Card(child: Padding(padding: const EdgeInsets.all(14), child: Text(error!, style: const TextStyle(color: Colors.red))))),
             if (busy) const Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator())),
             if (!busy && error == null && selectedTab == 0) ...[
