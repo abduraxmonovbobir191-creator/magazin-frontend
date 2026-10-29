@@ -21,7 +21,13 @@ export default function Home() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [debts, setDebts] = useState<Debt[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);\n  const [sales, setSales] = useState<Sale[]>([]);\n  const [cart, setCart] = useState<CartItem[]>([]);\n  const [saleProductId, setSaleProductId] = useState("");\n  const [saleQuantity, setSaleQuantity] = useState("1");\n  const [paymentMethod, setPaymentMethod] = useState("cash");\n  const [customerName, setCustomerName] = useState("");
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [sales, setSales] = useState<Sale[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [saleProductId, setSaleProductId] = useState("");
+  const [saleQuantity, setSaleQuantity] = useState("1");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [customerName, setCustomerName] = useState("");
   const [tab, setTab] = useState("overview");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
