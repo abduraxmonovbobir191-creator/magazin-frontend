@@ -114,7 +114,7 @@ class _AuthGateState extends State<AuthGate> {
     if (loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    if (widget.demoMode) return DashboardScreen(token: '', onLogout: _logout, demoMode: true);
+    if (demoMode) return DashboardScreen(token: '', onLogout: _logout, demoMode: true);
     if (token == null) return LoginScreen(onLogin: _login, onDemo: () => setState(() => demoMode = true));
     return DashboardScreen(token: token!, onLogout: _logout);
   }
