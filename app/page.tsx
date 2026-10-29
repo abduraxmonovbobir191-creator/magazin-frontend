@@ -9,7 +9,9 @@ type Metrics = { sales: number; salesCount: number; expenses: number; grossProfi
 type Debt = { id: string; direction: string; party_name: string; original_amount: number; paid_amount: number; remaining_amount: number; status: string; due_date?: string };
 type Expense = { id: string; title: string; category: string; amount: number; expense_date: string };
 type Sale = { id: string; receipt_number: number; total_amount: number; gross_profit: number; payment_method: string; status: string; sold_at: string };
-type CartItem = { productId: string; quantity: number };\ntype ProfitReport = { from: string; to: string; revenue: number; costOfGoodsSold: number; grossProfit: number; expenses: number; operatingProfitBeforeTax: number; salesCount: number; note: string };\ntype Employee = { id: string; username: string; full_name: string; role: string; is_active: boolean };
+type CartItem = { productId: string; quantity: number };
+type ProfitReport = { from: string; to: string; revenue: number; costOfGoodsSold: number; grossProfit: number; expenses: number; operatingProfitBeforeTax: number; salesCount: number; note: string };
+type Employee = { id: string; username: string; full_name: string; role: string; is_active: boolean };
 
 const money = (value: number) => new Intl.NumberFormat("uz-UZ", { maximumFractionDigits: 0 }).format(Number(value || 0)) + " so‘m";
 
@@ -27,7 +29,12 @@ export default function Home() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState("1");
   const [paymentMethod, setPaymentMethod] = useState("cash");
-  const [customerName, setCustomerName] = useState("");\n  const [report, setReport] = useState<ProfitReport | null>(null);\n  const [reportFrom, setReportFrom] = useState(new Date().toISOString().slice(0,10));\n  const [reportTo, setReportTo] = useState(new Date().toISOString().slice(0,10));\n  const [employees, setEmployees] = useState<Employee[]>([]);\n  const [employeeForm, setEmployeeForm] = useState({ username: "", fullName: "", password: "", role: "cashier" });
+  const [customerName, setCustomerName] = useState("");
+  const [report, setReport] = useState<ProfitReport | null>(null);
+  const [reportFrom, setReportFrom] = useState(new Date().toISOString().slice(0,10));
+  const [reportTo, setReportTo] = useState(new Date().toISOString().slice(0,10));
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employeeForm, setEmployeeForm] = useState({ username: "", fullName: "", password: "", role: "cashier" });
   const [tab, setTab] = useState("overview");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
