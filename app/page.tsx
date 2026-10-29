@@ -5,7 +5,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 type User = { id: string; username: string; role: string };
 type Product = { id: string; name: string; barcode?: string; unit: string; purchase_price: number; sale_price: number; stock_quantity: number; min_stock: number };
-type Metrics = { sales: number; salesCount: number; expenses: number; productCount: number; lowStockCount: number; openDebt: number; netOperatingBeforeCogs: number };
+type Metrics = { sales: number; salesCount: number; expenses: number; grossProfit: number; estimatedOperatingProfit: number; productCount: number; lowStockCount: number; openDebt: number };
 type Debt = { id: string; direction: string; party_name: string; original_amount: number; paid_amount: number; remaining_amount: number; status: string; due_date?: string };
 type Expense = { id: string; title: string; category: string; amount: number; expense_date: string };
 type Sale = { id: string; receipt_number: number; total_amount: number; gross_profit: number; payment_method: string; status: string; sold_at: string };
