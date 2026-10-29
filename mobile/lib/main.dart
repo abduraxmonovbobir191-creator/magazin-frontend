@@ -185,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 18),
                     FilledButton(onPressed: busy ? null : submit, child: Padding(padding: const EdgeInsets.all(12), child: Text(busy ? 'Tekshirilmoqda...' : 'Kirish'))),
                     const SizedBox(height: 12),
-                    Text('API: $apiBaseUrl', textAlign: TextAlign.center, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                    const Text('API: $apiBaseUrl', textAlign: TextAlign.center, style: TextStyle(fontSize: 10, color: Colors.grey)),
                   ],
                 ),
               ),
@@ -279,7 +279,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   elevation: 0,
                   margin: const EdgeInsets.only(bottom: 9),
                   child: ListTile(
-                    leading: CircleAvatar(backgroundColor: const Color(0xFFE7F6ED), child: const Icon(Icons.inventory_2_outlined, color: Color(0xFF176B4D))),
+                    leading: const CircleAvatar(backgroundColor: Color(0xFFE7F6ED), child: Icon(Icons.inventory_2_outlined, color: Color(0xFF176B4D))),
                     title: Text('${p['name']}', style: const TextStyle(fontWeight: FontWeight.w700)),
                     subtitle: Text('Sotuv: ${money(p['sale_price'])} · Tannarx: ${money(p['purchase_price'])}'),
                     trailing: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
